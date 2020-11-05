@@ -7,7 +7,7 @@ Function Update-LrCaseOwner {
     .SYNOPSIS
         Update the assigned owner of a case.
     .DESCRIPTION
-        The Update-LrCaseOwner cmdlet updates the case owner on an existing case.
+        The Update-LrCaseOwner cmdlet promotes a case collaborator to the case owner status on an existing case.
     .PARAMETER Id
         Unique identifier for the case, either as an RFC 4122 formatted string, or as a number.
     .PARAMETER Owner
@@ -17,6 +17,10 @@ Function Update-LrCaseOwner {
         Specifies a LogRhythm case owner by providing one of the following property values:
           + Person Number (as Int32), e.g. 17
           + Person Name (as System.String), e.g. "Hart, Eric"
+    .PARAMETER Force
+        Switch paramater that will add the Case Owner as a Case Collaborator in the event the requested Case Owner is not an existing Case Colalborator.
+    .PARAMETER PassThru
+        Switch paramater that will enable the return of the output object from the cmdlet.
     .PARAMETER Credential
         PSCredential containing an API Token in the Password field.
         Note: You can bypass the need to provide a Credential by setting
@@ -43,11 +47,21 @@ Function Update-LrCaseOwner {
         [ValidateNotNull()]
         [object] $Id,
         
+
         [Parameter(Mandatory = $true, Position = 1)]
         [ValidateNotNull()]
         [String] $Owner,
 
+
         [Parameter(Mandatory = $false, Position = 2)]
+        [switch] $Force,
+
+
+        [Parameter(Mandatory = $false, Position = 3)]
+        [switch] $PassThru,
+
+
+        [Parameter(Mandatory = $false, Position = 4)]
         [ValidateNotNull()]
         [pscredential] $Credential = $LrtConfig.LogRhythm.ApiKey
     )
@@ -95,6 +109,13 @@ Function Update-LrCaseOwner {
         } else {
             return $IdStatus
         }                                                      
+
+        $CaseCollaborators = Get-LrCaseCollaborators -Id $Id
+
+        foreach ($Collaborator in $CaseCollaborators) {
+            
+        }
+
 
         $RequestUrl = $BaseUrl + "/cases/$CaseNumber/actions/addCollaborators/"
         Write-Verbose "[$Me]: RequestUrl: $RequestUrl"
