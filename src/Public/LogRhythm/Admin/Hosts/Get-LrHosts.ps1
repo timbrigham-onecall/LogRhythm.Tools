@@ -164,7 +164,9 @@ Function Get-LrHosts {
         $QueryParams.Add("count", $PageValuesCount)
 
         # Query Offset - PageCount
-        $Offset = ($PageCount -1) * $PageValuesCount
+        # $Offset = ($PageCount -1) * $PageValuesCount
+        # The offset here is measured in number of pages, not lines from beginning. 
+        $Offset = $PageCount
         $QueryParams.Add("offset", $Offset)
 
         # Filter by Object Name
