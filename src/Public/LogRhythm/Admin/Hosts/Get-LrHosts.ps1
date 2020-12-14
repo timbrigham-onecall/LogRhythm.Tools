@@ -10,8 +10,10 @@ Function Get-LrHosts {
         Get-LrHosts returns a full LogRhythm Host object, including details and list items.
     .PARAMETER Credential
         PSCredential containing an API Token in the Password field.
-    .PARAMETER PageCount
-        Integer representing number of pages to return.  Default is maximum, 1000.
+    .PARAMETER PageValuesCount
+        Integer representing number of elements per pages to return.  Default is maximum, 1000.
+    .PARAMETER PageCount 
+        Integer representing representing the page number to return. Default is 1.
     .PARAMETER Name
         String used to search Entity Host records by Name.
     .PARAMETER Entity
